@@ -14,24 +14,24 @@ class RnsPy:
     """
 
     def __init__(self,
-                 rpc_endpoint: str,
+                 web3: Web3,
                  environment: str = MAINNET_ENV,
                  ):
         """
         Constructor
-        :param rpc_endpoint: A JSON RPC endpoint
+        :param web3: A web3 instance
         :param environment: a network_constants.py environment mode.
         """
-        self.web3 = Web3(Web3.HTTPProvider(rpc_endpoint))
+        self.web3 = web3
         self.rns_contract = None
         self.public_resolver = None
 
         if environment == MAINNET_ENV:
-            self.rns_contract = RnsContract(rpc_endpoint, MAINNET_RNS_ADDRESS, RNS_ABI)
-            self.public_resolver = ResolverContract(rpc_endpoint, MAINNET_PUBLIC_RESOLVER_ADDRESS, PUBLIC_RESOLVER_ABI)
+            self.rns_contract = RnsContract(web3, MAINNET_RNS_ADDRESS, RNS_ABI)
+            self.public_resolver = ResolverContract(web3, MAINNET_PUBLIC_RESOLVER_ADDRESS, PUBLIC_RESOLVER_ABI)
         elif environment == TESTNET_ENV:
-            self.rns_contract = RnsContract(rpc_endpoint, TESTNET_RNS_ADDRESS, RNS_ABI)
-            self.public_resolver = ResolverContract(rpc_endpoint, TESTNET_PUBLIC_RESOLVER_ADDRESS, PUBLIC_RESOLVER_ABI)
+            self.rns_contract = RnsContract(web3, TESTNET_RNS_ADDRESS, RNS_ABI)
+            self.public_resolver = ResolverContract(web3, TESTNET_PUBLIC_RESOLVER_ADDRESS, PUBLIC_RESOLVER_ABI)
 
     def set_public_resolver(self, address):
         """

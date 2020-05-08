@@ -1,7 +1,8 @@
 import unittest
+from web3 import Web3
 
 from rns_sdk.constants.network_constants import REGTEST_ENV
-from rns_sdk.constants.rns_constants import PUBLIC_RESOLVER_ABI, RNS_ABI, REGTEST_PUBLIC_RESOLVER_ADDRESS, \
+from rns_sdk.constants.rns_constants import REGTEST_PUBLIC_RESOLVER_ADDRESS, \
     REGTEST_RNS_ADDRESS
 from rns_sdk.index import RnsPy
 
@@ -17,9 +18,11 @@ class TestRnsPy(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    rnspy = RnsPy("http://localhost:4444", REGTEST_ENV)
-    rnspy.set_public_resolver(REGTEST_PUBLIC_RESOLVER_ADDRESS, PUBLIC_RESOLVER_ABI)
-    rnspy.set_rns(REGTEST_RNS_ADDRESS, RNS_ABI)
+    rpc_endpoint = "http://localhost:4444"
+    web3 = Web3(Web3.HTTPProvider(rpc_endpoint))
+    rnspy = RnsPy(web3, REGTEST_ENV)
+    rnspy.set_public_resolver(REGTEST_PUBLIC_RESOLVER_ADDRESS)
+    rnspy.set_rns(REGTEST_RNS_ADDRESS)
 
     lumino_domain = "lumino.rsk"
     unittest.main()
