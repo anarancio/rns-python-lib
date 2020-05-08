@@ -33,22 +33,20 @@ class RnsPy:
             self.rns_contract = RnsContract(rpc_endpoint, TESTNET_RNS_ADDRESS, RNS_ABI)
             self.public_resolver = ResolverContract(rpc_endpoint, TESTNET_PUBLIC_RESOLVER_ADDRESS, PUBLIC_RESOLVER_ABI)
 
-    def set_public_resolver(self, address, abi):
+    def set_public_resolver(self, address):
         """
                Override public resolver. For example, if you want to use it on regtest
                :param address: public resolver address.
-               :param abi: public resolver abi.
                """
 
-        self.public_resolver = ResolverContract(self.web3, address, abi)
+        self.public_resolver = ResolverContract(self.web3, address, PUBLIC_RESOLVER_ABI)
 
-    def set_rns(self, address, abi):
+    def set_rns(self, address):
         """
                Override rns instance. For example, if you want to use it on regtest
                :param address: rns address.
-               :param abi: rns abi.
                """
-        self.rns_contract = RnsContract(self.web3, address, abi)
+        self.rns_contract = RnsContract(self.web3, address, RNS_ABI)
 
     def addr(self, name_domain=None) -> str:
         """
