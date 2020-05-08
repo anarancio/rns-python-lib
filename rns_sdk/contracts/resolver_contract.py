@@ -1,11 +1,7 @@
 import binascii
 
-from web3 import Web3
-
 from eth_utils import to_checksum_address
 
-from rns_sdk.constants.rns_constants import  RNS_RESOLVER_ABI, RNS_RESOLVER_ADDRESS
-from rns_sdk.constants.client_constants import RPC_CLIENT_URL
 from rns_sdk.exceptions.rns_error import RnsError
 from rns_sdk.utils.namehash import namehash
 from rns_sdk.utils.rns import is_rns_address
@@ -16,20 +12,19 @@ class ResolverContract:
      Provides an easy-to-use interface to the RSK Name Service.
     """
 
-    def __init__(self, node_provider=RPC_CLIENT_URL,
-                 resolver_address=RNS_RESOLVER_ADDRESS,
-                 resolver_abi=RNS_RESOLVER_ABI):
+    def __init__(self, web3_provider,
+                 resolver_address,
+                 resolver_abi):
         """
         Constructor
-        :param node_provider: A web3 provider to use to communicate with the blockchain. Defaults to the public RSK node.
+        :param web3_provider: A web3 provider to use to communicate with the blockchain.
         :param resolver_address: The address of the RNS Resolver. Defaults to the public RNS Resolver.
         :param resolver_abi: The abi of the RNS Resolver. Defaults to the public RNS Resolver's abi.
         """
-        self.web3 = Web3(Web3.HTTPProvider(node_provider))
         self.address = resolver_address
         self.abi = resolver_abi
-        self.resolver_contract = self.web3.eth.contract(
-            abi=RNS_RESOLVER_ABI, address=to_checksum_address(RNS_RESOLVER_ADDRESS))
+        self.resolver_contract = web3_provider.eth.contract(
+            abi=resolver_abi, address=to_checksum_address(resolver_address))
 
     def addr(self, name_domain=None) -> str:
         """

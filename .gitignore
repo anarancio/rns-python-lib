@@ -1,0 +1,5 @@
+*.pyc
+clientEnv
+.idea/
+rns_sdk.egg-*
+
