@@ -29,7 +29,6 @@ class TestResolverContract(unittest.TestCase):
         self.assertFalse(result)
 
     def test_get_rns_registrar(self):
-        # lumino.rsk hash
         result = rns_contract.resolver("lumino.rsk")
         self.assertEqual(result, "0xDA7Ce79725418F4F6E13Bf5F520C89Cec5f6A974")
 

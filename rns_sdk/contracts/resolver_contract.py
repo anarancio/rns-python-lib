@@ -9,7 +9,7 @@ from rns_sdk.utils.rns import is_rns_address
 
 class ResolverContract:
     """
-     Provides an easy-to-use interface to the RSK Name Service.
+     Provides an easy-to-use interface to the RSK Name Service PublicResolver.
     """
 
     def __init__(self, web3_provider,
@@ -18,8 +18,8 @@ class ResolverContract:
         """
         Constructor
         :param web3_provider: A web3 provider to use to communicate with the blockchain.
-        :param resolver_address: The address of the RNS Resolver. Defaults to the public RNS Resolver.
-        :param resolver_abi: The abi of the RNS Resolver. Defaults to the public RNS Resolver's abi.
+        :param resolver_address: The address of the RNS Resolver.
+        :param resolver_abi: The abi of the RNS Resolver.
         """
         self.address = resolver_address
         self.abi = resolver_abi
