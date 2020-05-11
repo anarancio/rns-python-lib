@@ -49,35 +49,79 @@ python setup.py develop
 python3.7 tests/units/test_resolver_contract.py -v
 ```
 
-The result that you should see if everything went well is
+Note: 
 
-
-```
-
-test_addr (__main__.TestResolverConctract) ... ok
-test_addr_not_set (__main__.TestResolverConctract) ... ok
-test_has_other_kind (__main__.TestResolverConctract) ... ok
-test_set_addr (__main__.TestResolverConctract) ... ok
-test_set_content (__main__.TestResolverConctract) ... ok
-test_supports_interface (__main__.TestResolverConctract) ... ok
-test_unsupports_interface (__main__.TestResolverConctract) ... ok
-
-----------------------------------------------------------------------
-Ran 7 tests in 1.043s
-
-OK
-```
+The library does not include domain names registration, therefore, you must register your own domains to make the tests work for now.
 
 
 ## Usage and Getting Started
-In a Python console:
+Run the code from a Python console, or import it into your project.
+
+
+### Usages
+
+1. Using the library interface RnsPy
 
 ```
-from rns_sdk.resolver_contract import ResolverContract
 
-resolver = ResolverContract()
+# MainNet initialization
 
+from rns_sdk.constants.network_constants import MAINNET_ENV
+rpc_endpoint = "https://public-node.rsk.co"
+web3 = Web3(Web3.HTTPProvider(rpc_endpoint))
+rnspy = RnsPy(web3, MAINNET_ENV)
+
+
+# TestNet initialization
+
+from rns_sdk.constants.network_constants import TESTNET_ENV
+rpc_endpoint = "https://public-node.testnet.rsk.co"
+web3 = Web3(Web3.HTTPProvider(rpc_endpoint))
+rnspy = RnsPy(web3, TESTNET_ENV)
+
+
+# RegTest initialization
+
+from rns_sdk.constants.network_constants import REGTEST_ENV
+rpc_endpoint = "http://localhost:4444"
+web3 = Web3(Web3.HTTPProvider(rpc_endpoint))
+rnspy = RnsPy(web3, REGTEST_ENV)
+rnspy.set_public_resolver(REGTEST_PUBLIC_RESOLVER_ADDRESS)
+rnspy.set_rns(REGTEST_RNS_ADDRESS)
+rnspy.set_multichain_resolver(REGTEST_MULTICHAIN_RESOLVER_ADDRESS)
+
+# Resolving a domain name
+
+result = rnspy.addr("testdomain.rsk")
+
+# Multicrypto resolve
+
+from rns_sdk.constants.network_constants RSK_CHAIN_ID
+
+result = rnspy.chain_addr("testdomain.rsk", RSK_CHAIN_ID)
+
+```
+
+2. Using the RNS smart contract wrappers
+
+
+```
+
+# Public Resolver 
+
+from rns_sdk.contracts.resolver_contract import ResolverContract
+rpc_endpoint = "http://localhost:4444"
+web3 = Web3(Web3.HTTPProvider(rpc_endpoint))
+resolver = ResolverContract(web3, REGTEST_PUBLIC_RESOLVER_ADDRESS, PUBLIC_RESOLVER_ABI)
 resolver.addr("foo.rsk")
+
+# RNS
+
+from rns_sdk.contracts.rns_contract import RnsContract
+rpc_endpoint = "http://localhost:4444"
+web3 = Web3(Web3.HTTPProvider(rpc_endpoint))
+rns_contract = RnsContract(web3, REGTEST_RNS_ADDRESS, RNS_ABI)
+rns_contract.resolver("lumino.rsk")
 
 ```
 
@@ -99,6 +143,9 @@ Implementation of the RNS Registry, the central contract used to look up resolve
 ### PublicResolver.sol
 Simple resolver implementation that allows the owner of any domain to configure how its name should resolve. One deployment of this contract allows any number of people to use it, by setting it as their resolver in the registry.
 
+
+### MultichainResolver.sol
+Resolver capable of resolve addresses from other blockchains using a chain id as an identifier
 
 ## Documentation
 

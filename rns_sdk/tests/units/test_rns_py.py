@@ -20,7 +20,6 @@ class TestRnsPy(unittest.TestCase):
         result = rnspy.addr(test_domain)
         self.assertEqual(result, "0x3278deEd4eE3DE26Bb53fFb82f4Be82a6bB66D19")
 
-
     def test_resolve_domain_multichain_resolver_chain_id(self):
         result = rnspy.chain_addr(test_domain, RSK_CHAIN_ID)
         self.assertEqual(result, '')
