@@ -83,6 +83,8 @@ class RnsPy:
             # Public resolver was set
             resolved_address = self.multichain_resolver.addr(name_domain)
             return resolved_address
+        else:
+            return ""
 
     def chain_addr(self, name_domain: str, chain_id: int = RSK_CHAIN_ID) -> str:
         """
